@@ -6,7 +6,7 @@ on:
     # rebuild everyday at 2:51
     # TIP: Choose a random time here so not all repositories are build at once:
     # https://www.random.org/clock-times/?num=1&earliest=01%3A00&latest=08%3A00&interval=5&format=html&rnd=new
-    - cron:  '51 2 * * *'
+    - cron:  '40 5 * * *'
 jobs:
   tests:
     strategy:
@@ -17,7 +17,7 @@ jobs:
         # The repo name as used in
         # https://github.com/nix-community/NUR/blob/master/repos.json
         nurRepo:
-          - <YOUR_REPO_NAME>
+          - divanorama
         # Set this to cache your build results in cachix for faster builds
         # in CI and for everyone who uses your cache.
         #
@@ -61,5 +61,5 @@ jobs:
       # TODO switch to default nixpkgs channel once nix-build-uncached 1.0.0 is in stable
       run: nix run -I 'nixpkgs=channel:nixos-unstable' nixpkgs.nix-build-uncached -c nix-build-uncached ci.nix -A cacheOutputs
     - name: Trigger NUR update
-      if: ${{ matrix.nurRepo != '<YOUR_REPO_NAME>' }}
+      if: ${{ matrix.nurRepo != 'divanorama' }}
       run: curl -XPOST "https://nur-update.herokuapp.com/update?repo=${{ matrix.nurRepo }}"
